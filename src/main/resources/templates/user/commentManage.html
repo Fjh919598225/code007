@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${title}+'-Java1234下载'"></title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css"/>
+    <link rel="stylesheet" href="/static/css/css.css"/>
+</head>
+<body>
+<div class="w1170" th:include="common/head::#h" style="padding-bottom: 10px;overflow:visible;"></div>
+<div class="w1170">
+    <div style="float: left;width: 200px" th:include="common/menu::#m"/>
+    <div style="float: right;width: 960px" th:include="user/page/commentManagePage::#f"/>
+</div>
+<script src="/static/layui/layui.js"></script>
+<script src="/static/js/common.js"></script>
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+    layui.use(['element', 'form', 'table'], function () {
+        var form = layui.form;
+        var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+        $ = layui.jquery; // 使用jquery
+        table = layui.table;
+
+        tableIns = table.render({
+            elem: '#commentListTable'
+            , url: '/user/comment/list'
+            , page: true
+            , cols: [[
+                {type: 'checkbox'}
+                , {field: 'content', title: '评论内容'}
+                , {field: 'article', width: 200, title: '评论帖子', templet: formatArticleName}
+                , {field: 'commentDate', width: 200, title: Z'评论日期', sort: true, align: 'center'}
+                , {field: 'user', width: 100, title: '评论用户', templet: formatUserName}
+                , {field: 'action', width: 100, title: '操作', align: 'center', templet: formatAction}
+            ]]
+            , done: function (res, curr, count) { //处理删除某一页最后一条数据的BUG
+                if (res.data.length == 0 && curr != 1) {
+                    tableIns.reload({
+                        page: {
+                            curr: (curr - 1)
+                        }
+                    });
+                }
+            }
+
+        });
+
+    });
+
+    function formatArticleName(d) {
+        return "<a href='/article/" + d.article.id + "' target='_blank'>" + d.article.name + "</a>";
+    }
+    tableIns =
+    function formatUserName(d) {
+        return d.user.userName;
+    }
+
+    function formatAction(d) {
+        return "<button class='layui-btn layui-btn-warm layui-btn-xs' onclick='deleteOne(" + d.id + ")'><i class='layui-icon layui-icon-delete' ></i>删除</button>";
+    }
+
+    function deleteSelected() {
+        var checkStatus = table.checkStatus('commentListTable');
+        if (checkStatus.data.length == 0) {
+            layer.msg("请选择要删除的数据！");
+            return;
+        }
+        var strIds = [];
+        var rows = checkStatus.data;
+        for (var i = 0; i < checkStatus.data.length; i++) {
+            strIds.push(rows[i].id);
+        }
+        var ids = strIds.join(",");
+        layer.confirm("您确定要删除这<font color=red>" + checkStatus.data.length + "</font>条记录吗？", {
+            title: "系统提示"
+            , btn: ['确定', '取消'] //按钮
+        }, function () {
+            layer.closeAll('dialog');
+            $.post("/user/comment/deleteSelected", {"ids": ids}, function (result) {
+                if (result.success) {
+                    layer.msg("删除成功！");
+                    table.reload("commentListTable", {});
+                } else {
+                    layer.msg("删除失败，请联系管理员！");
+                }
+            }, "json");
+        }, function () {
+
+        });
+    }
+
+    function deleteOne(id) {
+        layer.confirm('您确定要删除这条记录吗？', {
+            title: "系统提示"
+            , btn: ['确定', '取消'] //按钮
+        }, function () {
+            layer.closeAll('dialog');
+            $.post("/user/comment/delete", {"id": id}, function (result) {
+                if (result.success) {
+                    layer.msg("删除成功！");
+                    table.reload("commentListTable", {});
+                } else {
+                    layer.msg("删除失败，请联系管理员！");
+                }
+            }, "json");
+        }, function () {
+
+        });
+    }
+
+    /*]]>*/
+</script>
+</body>
+</html>

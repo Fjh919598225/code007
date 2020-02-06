@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title th:text="${title}+'-Java1234下载'"></title>
+<link rel="stylesheet" href="/static/layui/css/layui.css" />
+<link rel="stylesheet" href="/static/css/css.css" />
+</head>
+<body>
+<div class="w1170" th:include="common/head::#h" style="padding-bottom: 10px;overflow:visible;"></div>
+
+<div class="w1170">
+
+	<div class="pLeft">
+	
+		<div class="data_list">
+    		<div class="data_list_title">
+    			<i class="layui-icon layui-icon-search"></i>
+				<span class="head">条件检索</span>
+    		</div>
+    		<div class="data_search">
+    			<div>
+    				<table>
+    					<tr>
+    						<td width="80px" style="padding-top: 0px;padding-bottom: 28px;"><font class="stitle">资源类别：</font></td>
+    						<td>
+    							<ul>
+			    					<li><a href="/"><span id="t_0">全部</span></a></li>
+				    				<li th:each="arcType:${application.allArcTypeList}">
+								  	  	<a th:href="'/article/list/1?typeId='+${arcType.id}" th:title="${arcType.name}">
+								  	 	 	<span th:id="'t_'+${arcType.id}" th:text="${arcType.name}"></span>
+								  	  	</a>
+								   </li>
+			    				</ul>
+    						</td>
+    					</tr>
+    					<tr>
+    						<td>&nbsp;</td>
+    					</tr>
+    					<tr style="border-top: dashed 1px #e6e6e6;height: 60px;">
+    						<td width="80px" style="padding-top: 0px;"><font class="stitle">关键词：</font></td>
+    						<td>
+    							<form action="/article/search" onsubmit="return submitData()">
+    								<div class="layui-row">
+    									<div class="layui-col-md10">
+		    								<input type="text" id="q" name="q" autocomplete="off" class="layui-input" style="height: 30px" />
+    									</div>
+    									<div class="layui-col-md2">
+		    								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" class="layui-btn layui-btn-radius layui-btn-sm" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;搜索&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; " />
+    									</div>
+    								</div>
+    							</form>
+    						</td>
+    					</tr>
+    				</table>
+    			</div>
+    			<div>
+    			</div>
+    		</div>
+    	</div>
+		
+		
+		<div class="data_list">
+    		<div class="data_list_title">
+    			<i class="layui-icon layui-icon-template-1"></i>
+				<span class="head">资源列表</span>
+    		</div>
+    		<div class="layui-form">
+			  <table class="layui-table" lay-skin="line">
+			    <colgroup>
+			      <col />
+			      <col width="100" />
+			      <col width="80" />
+			      <col width="120" />
+			      <col width="80" />
+			    </colgroup>
+			    <thead>
+			      <tr>
+			        <th>资源名称</th>
+			        <th>查看次数</th>
+			        <th>上传者</th>
+			        <th>上传日期</th>
+			        <th>积分</th>
+			      </tr> 
+			    </thead>
+			    <tbody>
+			      <tr th:each="article:${articleList}">
+			        <td><a target="_blank" th:href="'/article/'+${article.id}" th:title="${article.name}" th:text="${#strings.length(article.name)>30} ? ${#strings.substring(article.name,0,31)} : ${article.name}"></a></td>
+			        <td th:text="${article.view}"></td>
+			        <td th:text="${article.user.userName}"></td>
+			        <td th:text="${#dates.format(article.publishDate,'yyyy-MM-dd')}"></td>
+			        <td th:text="${article.points}">1</td>
+			      </tr>
+			    </tbody>
+			  </table>
+			</div>
+			<div align="center" th:utext="${pageCode}"></div>
+    	</div>
+    	
+	</div>
+	
+	<div class="pRight">
+		<div class="data_list">
+			<div class="data_list_title">
+				<i class="layui-icon layui-icon-face-smile-fine"></i>
+				<span class="head">每日签到，每日领取3个积分</span>
+			</div>
+			<div align="center">
+				<a onclick="sign()" th:if="${session.currentUser==null or !session.currentUser.sign}"><img style="padding-top: 10px;padding-bottom: 10px" width="200" height="50" alt="用户签到处" src="/static/resources/images/sign.jpg" /></a>
+				<div th:if="${session.currentUser!=null and session.currentUser.sign}" style="padding-top: 10px;padding-bottom: 10px">
+					您今天第<font color="red" th:text="${session.currentUser.signSort}"></font>个签到成功；<br />
+					签到时间:<font th:text="${#dates.format(session.currentUser.signTime,'HH时mm分ss秒')}"></font>
+				</div>
+
+				<p style="padding-bottom: 10px">今日已经有<font color="red" th:text="${application.signTotal}"></font>位大佬签到了！</p>
+			</div>
+		</div>
+	
+			<div class="data_list">
+	    		<div class="data_list_title">
+	    			<i class="layui-icon layui-icon-fire"></i>
+					<span class="head">热门资源</span>
+	    		</div>
+	    		<div class="datas">
+	    			<ul>
+	    				<li th:each="hotArticle:${indexHotArticleList}">
+					  	  	<a target="_blank" th:href="'/article/'+${hotArticle.id}" th:title="${hotArticle.name}" th:text="${#strings.length(hotArticle.name)>20} ? ${#strings.substring(hotArticle.name,0,21)} : ${hotArticle.name}"></a>
+					    </li>
+	    				
+	    			</ul>
+	    		</div>
+    	</div>
+	
+	</div>
+
+</div>
+
+
+<div class="w1170" th:include="common/link::#h"></div>
+
+<div class="w1170" th:include="common/foot::#h" style="padding-top: 40px"></div>
+
+<script src="/static/layui/layui.js"></script>
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/common.js"></script>
+<script th:inline="javascript">
+	/*<![CDATA[*/  
+	layui.use(['element','form','laypage'], function(){
+		  var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+		  var tMenu=[[${session.tMenu}]];
+		  $("#"+tMenu).css("color","red");
+	});
+	function submitData(){
+		var q=$("#q").val();
+		if(q==""){
+			layer.msg("请输入关键字！");
+			$("#q").focus();
+			return false;
+		}
+	}
+	/*]]>*/
+</script>
+</body>
+</html>
