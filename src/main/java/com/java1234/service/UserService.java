@@ -67,8 +67,5 @@ public interface UserService {
     /**
      * 重置所有签到信息
      */
-    @Transactional
-    @Modifying
-    @Query(value = "update t_user set is_sign = false ,sign_sort=null ,sign_time = null ",nativeQuery = true)
     public void updateAllSignInfo();
 }

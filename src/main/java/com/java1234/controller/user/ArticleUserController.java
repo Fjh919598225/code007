@@ -81,7 +81,7 @@ public class ArticleUserController {
             FileUtils.copyInputStreamToFile(file.getInputStream(),new File(articleImageFilePath+DateUtil.getCurrentDatePath()+newFileName));
             Map<String,Object> map= new HashMap<>();
             System.out.println("newFileName："+newFileName);
-            map.put("src","/image/"+DateUtil.getCurrentDatePath()+newFileName);
+            map.put("src","/project/articleImages/"+DateUtil.getCurrentDatePath()+newFileName);
             map.put("title",newFileName);
             dataGridView = new DataGridView(0, "上传成功", map);
         }

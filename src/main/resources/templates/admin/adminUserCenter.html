@@ -2,19 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8" />
-<title th:text="${title}+'-Java1234下载'"></title>
+<title th:text="${title}"></title>
 <link rel="stylesheet" href="/static/layui/css/layui.css" />
 <link rel="stylesheet" href="/static/css/css.css" />
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
   <div class="layui-header">
-    <div class="layui-logo"><a href="/toAdminUserCenterPage" style="color: gray">Java1234下载-后台管理</a></div>
+    <div class="layui-logo"><a href="/toAdminUserCenterPage" style="color: gray">后台管理</a></div>
     <ul class="layui-nav layui-layout-right">
     	<li class="layui-nav-item"><a href="javascript:history.back(-1)"><i class="layui-icon layui-icon-return">&nbsp;&nbsp;返回上一页</i></a></li>
       <li class="layui-nav-item">
         <a href="javascript:;">
-          <img th:src="${'/userImage/'+session.currentUser.imageName}" class="layui-nav-img" th:text="${session.currentUser.userName}"></img>
+          <img th:src="${'/project/userImages/'+session.currentUser.imageName}" class="layui-nav-img" th:text="${session.currentUser.userName}"></img>
         </a>
       </li>
     </ul>
@@ -52,7 +52,7 @@
   
   <div class="layui-footer">
     <!-- 底部固定区域 -->
-    Copyright © 2012-2020 Java知识分享网 版权所有
+
   </div>
 </div>
 <script src="/static/layui/layui.js"></script>
@@ -102,7 +102,7 @@
 	}
 	
 	function genAllIndex(){
-		layer.confirm("您确定要重新生成所有帖子的索引吗？<br/>(如需生成，请先删除原来的帖子索引)", {
+		layer.confirm("您确定要重新生成所有帖子的索引吗？", {
 		      title:"系统提示"
 			  ,btn: ['确定','取消'] //按钮
 			}, function(){

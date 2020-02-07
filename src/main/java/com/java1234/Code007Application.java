@@ -6,7 +6,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class Code007Application extends SpringBootServletInitializer {
+public class Code007Application extends SpringBootServletInitializer   {
 
     public static void main(String[] args) {
         SpringApplication.run(Code007Application.class, args);

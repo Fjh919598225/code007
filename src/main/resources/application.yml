@@ -9,9 +9,9 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://47.97.172.3:3306/code007?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/code007?useUnicode=true&characterEncoding=utf-8
     username: root
-    password: Caofeng2012@
+    password: 123456
   jpa:
     hibernate:
       ddl-auto: update
@@ -19,8 +19,8 @@ spring:
   thymeleaf:
     cache: false
 
-userImageFilePath: /project/userImages
+userImageFilePath: /project/userImages/
 
-articleImageFilePath: /project/articleImages
+articleImageFilePath: /project/articleImages/
 
 lucenePath: /project/lucene

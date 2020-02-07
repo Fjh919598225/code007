@@ -221,7 +221,7 @@ public class UserController {
             String newFileName = DateUtil.getCurrentDateStr() + suffix;  //新文件名
             FileUtils.copyInputStreamToFile(file.getInputStream(),new File(userImageFilePath+newFileName));
             Map<String,Object> map= new HashMap<>();
-            map.put("src","/userImage/"+newFileName);
+            map.put("src","/project/userImages/"+newFileName);
             map.put("title",newFileName);
             dataGridView = new DataGridView(0, "上传成功", map);
 
@@ -256,31 +256,33 @@ public class UserController {
     @ResponseBody
     @RequestMapping("sign")
     public Map<String,Object> sign(HttpSession session,HttpServletRequest request)throws Exception{
-        Map<String,Object> map=new HashMap<>();
-        User currentUser= (User) session.getAttribute("currentUser");
-        if (currentUser==null){
-            map.put("success",false);
-            map.put("errorInfo","请先登录，再签到！");
-            return map;
-        }else if (currentUser.isSign()){
-            map.put("success",false);
-            map.put("errorInfo","您已签到！");
+        Map<String,Object> map=new HashMap<String,Object>();
+        if(session.getAttribute("currentUser")==null){
+            map.put("success", false);
+            map.put("errorInfo", "大佬，请先登录下，才能签到;");
             return map;
         }
-        ServletContext application = request.getServletContext();
-        Integer signTotal = (Integer) redisUtil.get("signTotal");
-        redisUtil.set("signTotal",signTotal+1);
-        application.setAttribute("signTotal",signTotal+1);
+        User currentUser=(User) session.getAttribute("currentUser");
+        if(currentUser.isSign()){
+            map.put("success", false);
+            map.put("errorInfo", "大佬，你已经签到了，不能重复签到;");
+            return map;
+        }
+        ServletContext application=request.getServletContext();
+        Integer signTotal=(Integer) redisUtil.get("signTotal");
+        redisUtil.set("signTotal", signTotal+1);
+        application.setAttribute("signTotal", signTotal+1);
 
-        //更新到数据库
+        // 更新到数据库
         User user = userService.getById(currentUser.getId());
         user.setSign(true);
         user.setSignTime(new Date());
         user.setSignSort(signTotal+1);
         user.setPoints(user.getPoints()+3);
         userService.save(user);
-        session.setAttribute("currentUser",currentUser);
-        map.put("success",true);
+
+        session.setAttribute("currentUser", user);
+        map.put("success", true);
         return map;
 
     }

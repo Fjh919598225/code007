@@ -3,12 +3,9 @@
 	<ul class="layui-nav" lay-filter="">
 		<li class="layui-nav-item"><a href="/">首页</a></li>
 		<li class="layui-nav-item"><a href="/toVipPage">VIP购买</a></li>
-		<li class="layui-nav-item"><a href="http://blog.java1234.com/blog/articles/427.html" target="_blank">领取100积分</a></li>
-		<li class="layui-nav-item"><a href="http://blog.java1234.com/blog/articles/425.html" target="_blank">领取本站源码</a></li>
-		<li class="layui-nav-item"><a href="http://blog.java1234.com/blog/articles/428.html" target="_blank">获取本站项目商业授权</a></li>
-		<li class="layui-nav-item"><a href="http://www.java1234.com/javaxuexiluxiantu.html" target="_blank">Java学习路线图</a></li>
+
 		<li th:if="${session.currentUser!=null}" class="layui-nav-item" style="float: right;">
-			<a href="/toUserCenterPage"><img class="layui-nav-img" th:src="${'/userImage/'+session.currentUser.imageName}" th:text="${session.currentUser.userName}"></img></a>
+			<a href="/toUserCenterPage"><img class="layui-nav-img" th:src="${'/project/userImages/'+session.currentUser.imageName}" th:text="${session.currentUser.userName}"></img></a>
 			<dl class="layui-nav-child">
 				<dd><a onclick="showModifyPassword()">修改密码</a></dd>
 				<dd><a onclick="showModifyUserImage()">修改头像</a></dd>

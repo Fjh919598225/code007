@@ -32,7 +32,7 @@ public class SignReset implements ServletContextListener {
     @Scheduled(cron = "0 0 0 * * ?")
     private void process(){
         application.setAttribute("signTotal",0);
-        redisUtil.set("signTotal",0);
+        redisUtil.set("signTotal", 0);
         userService.updateAllSignInfo();
     }
 

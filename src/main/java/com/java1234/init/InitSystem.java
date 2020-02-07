@@ -50,13 +50,14 @@ public class InitSystem implements ServletContextListener , ApplicationContextAw
         application.setAttribute("allArcTypeList",allArcTypeList);
         application.setAttribute("linkList",linkList);
 
-        if (redisUtil.get("signTotal")!=null){
-            Integer signTotal = (Integer) redisUtil.get("signTotal");
-            application.setAttribute("signTotal",signTotal);
-        }else {
+        if(redisUtil.get("signTotal")!=null){
+            Integer signTotal=(Integer) redisUtil.get("signTotal");
+            application.setAttribute("signTotal", signTotal);
+        }else{
             redisUtil.set("signTotal",0);
-            application.setAttribute("signTotal",0);
+            application.setAttribute("signTotal", 0);
         }
+
     }
 
     @Override

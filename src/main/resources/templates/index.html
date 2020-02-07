@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8"/>
-<title th:text="${title}+'-Java1234下载'"></title>
+<title th:text="${title}"></title>
 <link rel="stylesheet" href="/static/layui/css/layui.css" />
 <link rel="stylesheet" href="/static/css/css.css" />
 </head>
@@ -106,7 +106,7 @@
 				<span class="head">每日签到，每日领取3个积分</span>
 			</div>
 			<div align="center">
-				<a onclick="sign()" th:if="${session.currentUser==null or !session.currentUser.sign}"><img style="padding-top: 10px;padding-bottom: 10px" width="200" height="50" alt="用户签到处" src="/static/resources/images/sign.jpg" /></a>
+				<a onclick="sign()" th:if="${session.currentUser==null or !session.currentUser.sign}"><img style="padding-top: 10px;padding-bottom: 10px" width="200" height="50" alt="用户签到处" src="/static/images/sign.jpg" /></a>
 				<div th:if="${session.currentUser!=null and session.currentUser.sign}" style="padding-top: 10px;padding-bottom: 10px">
 					您今天第<font color="red" th:text="${session.currentUser.signSort}"></font>个签到成功；<br />
 					签到时间:<font th:text="${#dates.format(session.currentUser.signTime,'HH时mm分ss秒')}"></font>
@@ -138,7 +138,7 @@
 
 <div class="w1170" th:include="common/link::#h"></div>
 
-<div class="w1170" th:include="common/foot::#h" style="padding-top: 40px"></div>
+
 
 <script src="/static/layui/layui.js"></script>
 <script src="/static/js/jquery.js"></script>

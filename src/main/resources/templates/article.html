@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8"/>
-	<title th:text="${title}+'-Java1234下载'"></title>
+	<title th:text="${title}"></title>
 	<link rel="stylesheet" href="/static/layui/css/layui.css" />
 	<link rel="stylesheet" href="/static/css/css.css" />
 </head>
@@ -86,7 +86,7 @@
 
 <div class="w1170" th:include="common/link::#h"></div>
 
-<div class="w1170" th:include="common/foot::#h" style="padding-top: 40px"></div>
+
 
 <script src="/static/layui/layui.js"></script>
 <script src="/static/js/jquery.js"></script>
@@ -115,7 +115,7 @@
 						var row=rows[i];
 						$("#commentList").append("<div class='comment'>"+
 								"<div class='left_img'>"+
-								"<img src='/userImage/"+row.user.imageName+"' class='layui-nav-img'/>"+
+								"<img src='/project/userImages/"+row.user.imageName+"' class='layui-nav-img'/>"+
 								"</div>"+
 								"<div class='right'>"+
 								"<dt class='top'>"+
